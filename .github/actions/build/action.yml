@@ -1,0 +1,16 @@
+name: 'Build Docker image'
+description: 'Action to building docker image for our sample-book-app'
+runs:
+  using: "composite"
+  steps:
+    - run: echo "Building docker image and pushing it to docker registry.."
+      shell: bash
+    - name: Build docker image
+      run: docker build --no-cache -t mtararujs/sample-book-app .
+      shell: bash
+    - name: Runnning unit tests for node application in docker container..
+      run: docker run --rm --entrypoint=npm mtararujs/sample-book-app run test
+      shell: bash
+    - name: Pushing docker image to docker registry..
+      run: docker push mtararujs/sample-book-app
+      shell: bash

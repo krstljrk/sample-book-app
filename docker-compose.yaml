@@ -1,0 +1,33 @@
+# version of Compose
+version: '3.8'
+# define services
+services:
+  # service names:
+  sample-book-app-dev:
+    # if image does not exist, use Docker file in the same location to create an image (useful also when you need to rebuild image):
+    build: . # location to Docker file
+    # check if this image exists and use it, otherwise apply build above 
+    image: sample-book-app
+    # specify container name to identify between the 3 different services, same as "--name sample-book-app-dev":
+    container_name: sample-book-app-dev 
+    # define port mapping (can be more than one):
+    ports:
+      - 1010:1050 # host:container
+    # docker compose automatically removes containers, no need for --rm flag
+  sample-book-app-stg:
+    build: .
+    image: sample-book-app
+    container_name: sample-book-app-stg
+    ports:
+      - 2020:1050
+  sample-book-app-prd:
+    build: .
+    image: sample-book-app
+    container_name: sample-book-app-prd
+    ports:
+      - 3030:1050
+
+# docker run -p 5555:1050 --rm sample-book-app
+
+
+
